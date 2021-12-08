@@ -1,7 +1,5 @@
-package com.justnik.shoppinglistclear.presentation
+package com.justnik.shoppinglistclear.presentation.mainactivity
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.justnik.shoppinglistclear.data.ShopListRepositoryImpl
 import com.justnik.shoppinglistclear.domain.ShopItem
