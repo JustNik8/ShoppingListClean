@@ -1,16 +1,15 @@
-package com.justnik.shoppinglistclear.presentation
+package com.justnik.shoppinglistclear.presentation.mainactivity
 
-import android.media.MediaRouter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.justnik.shoppinglistclear.R
-import com.justnik.shoppinglistclear.domain.ShopItem
 import com.justnik.shoppinglistclear.presentation.adapters.ShopListAdapter
-import kotlin.math.log
+import com.justnik.shoppinglistclear.presentation.shopitemactivity.ShopItemActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var rvShopList: RecyclerView
     private lateinit var rvAdapter: ShopListAdapter
+    private lateinit var fabAddShopItem: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +28,22 @@ class MainActivity : AppCompatActivity() {
 
         setUpRecyclerView()
 
+        setUpFabAddShopItem()
+
+
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainViewModel.shopList.observe(this){
             rvAdapter.submitList(it)
         }
 
+    }
+
+    private fun setUpFabAddShopItem() {
+        fabAddShopItem = findViewById(R.id.button_add_shop_item)
+        fabAddShopItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddItem(this@MainActivity)
+            startActivity(intent)
+        }
     }
 
     private fun setUpRecyclerView(){
@@ -80,6 +91,8 @@ class MainActivity : AppCompatActivity() {
     private fun setUpClickListener() {
         rvAdapter.onShopItemClickListener = { shopItem ->
             Log.d(TAG, "onCreate: $shopItem")
+            val intent = ShopItemActivity.newIntentEditItem(this@MainActivity, shopItem.id)
+            startActivity(intent)
         }
     }
 
